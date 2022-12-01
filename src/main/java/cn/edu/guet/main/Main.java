@@ -2,6 +2,7 @@ package cn.edu.guet.main;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.sql.*;
 
 /**
  * @Author liangjinmei
@@ -10,6 +11,33 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class Main {
     public static void main(String[] args) {
+        String sql = "SELECT * FROM users";// 用Java去执行这条SQL语句来获取数据
+        String url = "jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
+        Connection conn = null;// 表示数据库的连接对象
+        PreparedStatement pstmt = null;// 表示SQL语句的对象
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection(url, "root", "123456");
+            pstmt = conn.prepareStatement(sql);// 把pstmt和sql语句做一个关联，pstmt就代表上面的sql语句
+
+            rs = pstmt.executeQuery();
+
+            while (rs.next()){
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                pstmt.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         JFrame jFrame = new JFrame("主界面");
         jFrame.setSize(1200,700);
         jFrame.setVisible(true);
